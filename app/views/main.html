@@ -1,0 +1,57 @@
+<br />
+<div ng-if="object">
+<div class="panel panel-header">
+  <div class="panel-heading ">
+    <h1>Review request # {{data.RequestId}}</h1>
+  </div>
+  <div class="panel-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Request ID</h4>
+              <p class="list-group-item-text">{{data.RequestId}}</p>
+            </div>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Requestor</h4>
+              <p class="list-group-item-text">{{data.Requestor}}</p>
+            </div>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Request date</h4>
+              <p class="list-group-item-text">{{data.Timestamp}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Amount</h4>
+              <p class="list-group-item-text">{{data.Amount}}</p>
+            </div>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Reason</h4>
+              <p class="list-group-item-text">{{data.Reason}}</p>
+            </div>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Comments</h4>
+              <p class="list-group-item-text">{{data.Comments}}</p>
+            </div>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">Urgent</h4>
+              <p class="list-group-item-text">{{data.Urgent}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-primary pull-right" ng-click="approve()">Approve</button>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-danger" ng-click="reject()">Reject</button>
+        </div>
+      </div>
+
+  </div>
+</div>
+</div>
