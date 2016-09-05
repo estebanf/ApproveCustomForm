@@ -30,7 +30,7 @@ angular.module('approveCustomFormApp')
         .then(function(data){
           console.log(data);
           $loadingOverlay.hide();
-          $window.location.assign('empty.html');
+          $window.location.assign('/everteam/workflow/script/empty.jsp');
         });
     };
     $scope.approve = function(){

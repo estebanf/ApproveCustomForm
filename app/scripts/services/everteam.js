@@ -8,23 +8,19 @@
  * Factory in the approveCustomFormApp.
  */
 angular.module('approveCustomFormApp')
-  .config( ['$locationProvider', function($locationProvider){
-    $locationProvider.html5Mode(true);
-  }])
-  .factory('everteam', ['$location','$http','$q',function ($location,$http,$q) {
+  .factory('everteam', ['$http','$q','$window',function ($http,$q,$window) {
     var _tmsUrl = '/everteam/ode/processes/TaskManagementServices.TaskManagementServicesSOAP/';
-    var _completeTaskUrl = '/everteam/ode/processes/completeTask';
-
-    var _params = {
-      url : $location.absUrl(),
-      taskid : $location.search().id,
-      tasktype : $location.search().type,
-      taskurl : $location.search().url,
-      token : $location.search().token,
-      user : $location.search().user,
-      claimTaskOnOpen : $location.search().claimTaskOnOpen
-    };
-
+    var _completeurl = '/everteam/ode/processes/completeTask';
+    var search = $window.location.search.substring(1);
+    console.log(search);
+    var queries = search.split('&');
+    var _params = {};
+    angular.forEach(queries,function(value,key){
+      var itemKey = value.split("=")[0];
+      var itemValue = value.replace(itemKey + '=','');
+      _params[itemKey] = decodeURIComponent(itemValue);
+    })
+    console.log(_params);
     var basePayload = function(url) {
       return {
         method:'POST',
@@ -36,7 +32,7 @@ angular.module('approveCustomFormApp')
       };
     };
     var buildCompleteTask = function(data){
-      var payload = basePayload(_completeTaskUrl);
+      var payload = basePayload(_completeurl);
       payload.data = {
         'ib4p:completeTaskRequest':{
           '@xmlns':{
@@ -44,7 +40,7 @@ angular.module('approveCustomFormApp')
           },
           'ib4p:taskMetaData':{
             'ib4p:taskId':{
-              '$':_params.taskid
+              '$':_params.id
             }
           },
           'ib4p:participantToken':{
@@ -56,8 +52,6 @@ angular.module('approveCustomFormApp')
           'ib4p:taskOutput':data
         }
       };
-      console.log(JSON.stringify(payload));
-      console.log(payload);
       return payload;
     };
     var buildGetTaskDetail = function(){
@@ -68,7 +62,7 @@ angular.module('approveCustomFormApp')
             'tas':'http://www.intalio.com/BPMS/Workflow/TaskManagementServices-20051109/'
           },
           'tas:taskId':{
-            '$':_params.taskid
+            '$':_params.id
           },
           'tas:participantToken':{
             '$':_params.token
@@ -78,7 +72,7 @@ angular.module('approveCustomFormApp')
       return payload;
     };
     var buildApi = function(api,data){
-      var deferred = $q.defer(); 
+      var deferred = $q.defer();
       $http(api(data))
         .success(function(data){
           deferred.resolve(data);
